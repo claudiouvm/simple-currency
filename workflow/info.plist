@@ -12,7 +12,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -22,7 +22,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
 				<key>modifiersubtext</key>
@@ -32,7 +32,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
 				<key>modifiers</key>
 				<integer>1048576</integer>
 				<key>modifiersubtext</key>
@@ -130,7 +130,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -140,7 +140,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
 				<key>modifiersubtext</key>
@@ -150,7 +150,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
 				<key>modifiers</key>
 				<integer>1048576</integer>
 				<key>modifiersubtext</key>
@@ -210,7 +210,7 @@ if [ -z "$PY" ]; then
     printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
     exit
 fi
-"$PY" ./simplecurrency.py "$1"
+SC_KEYWORD="cur" "$PY" ./simplecurrency.py "$1"
 </string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -272,7 +272,7 @@ if [ -z "$PY" ]; then
     printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
     exit
 fi
-"$PY" ./simplecurrency.py "$1"
+SC_KEYWORD="cambio" "$PY" ./simplecurrency.py "$1"
 </string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -334,7 +334,7 @@ if [ -z "$PY" ]; then
     printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
     exit
 fi
-"$PY" ./simplecurrency.py "$1"
+SC_KEYWORD="cur" "$PY" ./simplecurrency.py "$1"
 </string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -488,7 +488,69 @@ fi
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>/usr/bin/python3 ./simplecurrency.py --toggle "$1"</string>
+				<string>ARG="$1"
+MARK="__simple_currency_refresh__"
+if [ "$ARG" = "$MARK" ] || [ "${sc_refresh:-}" = "1" ]; then
+    PY=""
+    if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+        PY=/usr/bin/python3
+    elif [ -x /opt/homebrew/bin/python3 ]; then
+        PY=/opt/homebrew/bin/python3
+    elif [ -x /usr/local/bin/python3 ]; then
+        PY=/usr/local/bin/python3
+    fi
+    if [ -z "$PY" ]; then
+        printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+        exit
+    fi
+    "$PY" ./simplecurrency.py --refresh &gt;/dev/null 2&gt;&amp;1
+    QUERY="${sc_keyword:-cur}"
+    if [ -n "${sc_query:-}" ]; then
+        QUERY="$QUERY ${sc_query}"
+    fi
+    /usr/bin/osascript -e 'on run argv' \
+        -e 'tell application id "com.runningwithcrayons.Alfred" to search (item 1 of argv)' \
+        -e 'end run' "$QUERY" &gt;/dev/null 2&gt;&amp;1
+    exit 0
+fi
+printf '%s' "$ARG" | /usr/bin/pbcopy
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8447C788-A081-5015-BDA5-A706E41AFF38</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py --toggle "$1"
+</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -511,7 +573,20 @@ fi
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>/usr/bin/python3 ./simplecurrency.py --remove "$1"</string>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py --remove "$1"
+</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -581,6 +656,7 @@ cur-add / cur-rm               choose the favourites you compare against
 cur-help                       every example
 
 ↩ copies the result · ⌥ the full expression · ⌘ the number only.
+The rates row at the bottom is clickable: ↩ on it downloads fresh rates and reopens Alfred with the same query.
 
 LANGUAGES
 The interface follows the macOS language (English or Spanish); override it in Configure → Interface language. Currency names are searchable in both languages, with or without accents, singular or plural: dollar, dólares, chilean peso, peso chileno, yuan, corona sueca, swiss franc.
@@ -632,10 +708,17 @@ Rates from open.er-api.com (no API key), cached on disk for an hour, with curren
 			<key>ypos</key>
 			<integer>360</integer>
 		</dict>
-		<key>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</key>
+		<key>8447C788-A081-5015-BDA5-A706E41AFF38</key>
 		<dict>
 			<key>xpos</key>
 			<integer>330</integer>
+			<key>ypos</key>
+			<integer>90</integer>
+		</dict>
+		<key>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>660</integer>
 			<key>ypos</key>
 			<integer>0</integer>
 		</dict>
@@ -769,7 +852,7 @@ Rates from open.er-api.com (no API key), cached on disk for an hour, with curren
 				<key>pairs</key>
 				<array>
 					<array>
-						<string>Both ways</string>
+						<string>Favourites → base (one row each)</string>
 						<string>DEFAULT</string>
 					</array>
 					<array>
@@ -779,6 +862,10 @@ Rates from open.er-api.com (no API key), cached on disk for an hour, with curren
 					<array>
 						<string>Favourites → base</string>
 						<string>FROM_FAV</string>
+					</array>
+					<array>
+						<string>Both ways</string>
+						<string>BOTH</string>
 					</array>
 				</array>
 			</dict>
@@ -892,7 +979,7 @@ Rates from open.er-api.com (no API key), cached on disk for an hour, with curren
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.1.0</string>
+	<string>1.1.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/claudiouvm/simple-currency</string>
 </dict>

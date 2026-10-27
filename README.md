@@ -57,6 +57,11 @@ Each result:
 - `⌘` copies the number only, unformatted (`1004.17`)
 - `⌘L` shows it in Large Type
 
+The last row is the exchange-rate status. It is clickable: `↩` on it downloads
+fresh rates (ignoring the cache) and reopens Alfred with the same query, so the
+numbers in front of you are the new ones. If the download fails, the old rates
+stay put and the row says why.
+
 Keywords: `cur`, `cambio` (Spanish), `cur-add`, `cur-rm`, `cur-help`.
 
 ## Favourites
@@ -80,10 +85,15 @@ cur 100 usd
   100 USD = 89.39 EUR
   100 USD = 154,047.51 ARS
   ...
-  100 CLP = 0.10 USD
 ```
 
-Set `COMPARE` to *base only* in Configure for the classic two-row behaviour.
+Set `COMPARE` to *base only* in Configure for the single-row behaviour (plus the
+reverse conversion when it is not redundant). Writing an explicit direction —
+`cur 100 usd a yuan` — always skips the favourites comparison.
+
+The default list (`cur` on its own) shows **one row per favourite**, never the
+same currency twice. Set `ORIENTATION` to *both ways* if you want the old
+base↔favourite matrix.
 
 ## Languages
 
@@ -118,7 +128,7 @@ Alfred → Workflows → Simple Currency → Configure:
 | `BASE` | `CLP` | base currency, everything compares against it |
 | `FAVORITES` | 10 currencies | starting favourites (manage them with `cur-add`) |
 | `COMPARE` | favourites | when you type a currency, compare against favourites or the base only |
-| `ORIENTATION` | both ways | direction of the default list |
+| `ORIENTATION` | one row per favourite | direction of the default list: favourites → base, base → favourites, or both ways |
 | `PRECISION` | automatic | decimals: each currency's own (CLP 0, USD 2) or fixed |
 | `EXPIRE` | 1 hour | how often rates are refreshed |
 | `ALIASES` | empty | your own aliases: `lucas=CLP, verde=USD` |
@@ -182,9 +192,11 @@ cur-help                todos los ejemplos
 ```
 
 `↩` copia el resultado, `⌥` la expresión completa y `⌘` sólo el número. La
-interfaz sigue el idioma de macOS y se puede forzar en Configure. Los nombres se
-entienden con o sin tilde, en singular o plural: dólar, pesos chilenos, corona
-sueca, franco suizo, uf.
+última fila muestra el estado de las tasas y se puede pulsar: `↩` sobre ella
+baja tasas nuevas y reabre Alfred con la misma consulta. La interfaz sigue el
+idioma de macOS y se puede forzar en Configure. Los nombres se entienden con o
+sin tilde, en singular o plural: dólar, pesos chilenos, corona sueca, franco
+suizo, uf.
 
 Instalación: descarga el `.alfredworkflow` de la última release y ábrelo. Requiere
 Alfred 5 con Powerpack y Python 3.

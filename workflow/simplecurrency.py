@@ -46,6 +46,12 @@ HTTP_TIMEOUT = 8
 
 EXACT = 850          # a partir de aquí se considera una moneda identificada
 MAX_LIST_ITEMS = 40
+
+# la fila de tasas es clicable: su arg es este centinela y el script de acción
+# (ver build/make.py) se encarga de bajar tasas nuevas y reabrir Alfred
+REFRESH_SENTINEL = "__simple_currency_refresh__"
+FAIL_RETRY = 120     # segundos sin reintentar tras un fallo de red
+KEYWORD = os.getenv("SC_KEYWORD", "cur")
 SEPARATORS = {"a", "al", "en", "to", "hacia", "->", "→", "=>", ">", "="}
 
 NUMBER_RE = re.compile(r"^[+-]?[\d][\d.,]*$")
@@ -116,6 +122,10 @@ STRINGS = {
     "rates_stale_sub": {
         "en": "Couldn't refresh · {error}",
         "es": "No pude bajar tasas nuevas · {error}",
+    },
+    "rates_refresh": {
+        "en": "\u21a9 refresh now",
+        "es": "\u21a9 actualizar ahora",
     },
     "no_rates_title": {
         "en": "Couldn't fetch exchange rates",
@@ -200,14 +210,6 @@ STRINGS = {
     "fav_empty_hint": {
         "en": "Add them with cur-add",
         "es": "Añádelas con cur-add",
-    },
-    "fav_manage_title": {
-        "en": "Add or remove favourites",
-        "es": "Añadir o quitar favoritas",
-    },
-    "fav_manage_sub": {
-        "en": "cur-add · comparing against {count} ({names})",
-        "es": "cur-add · ahora comparas contra {count} ({names})",
     },
     # edades
     "age_now": {"en": "just now", "es": "recién"},
@@ -440,7 +442,7 @@ class Config:
         self.delta = read_favorite_delta()
         self.favorites = self._favorites()
         self.orientation = os.getenv("ORIENTATION", "DEFAULT").strip().upper()
-        if self.orientation not in ("DEFAULT", "FROM_FAV", "TO_FAV"):
+        if self.orientation not in ("DEFAULT", "FROM_FAV", "TO_FAV", "BOTH"):
             self.orientation = "DEFAULT"
         # al escribir una moneda: comparar contra la base + todas las favoritas
         self.compare_favorites = \
@@ -581,6 +583,33 @@ def read_cache():
     return None
 
 
+def write_cache(payload):
+    try:
+        with open(CACHE_FILE, "w", encoding="utf-8") as handle:
+            json.dump(payload, handle)
+    except OSError:
+        pass
+
+
+def note_failure(cache, error):
+    """Recuerda el fallo para no reintentar (ni colgar la lista) 2 minutos."""
+    payload = dict(cache or {})
+    payload["failed_at"] = time.time()
+    payload["last_error"] = error
+    write_cache(payload)
+
+
+def force_refresh():
+    """Baja tasas nuevas ignorando EXPIRE. Devuelve el error, o None si anduvo."""
+    cache = read_cache()
+    fresh, source = fetch_rates()
+    if not fresh:
+        note_failure(cache, source)
+        return source
+    write_cache({"fetched_at": time.time(), "source": source, "rates": fresh})
+    return None
+
+
 def lock_is_fresh():
     try:
         return (time.time() - os.path.getmtime(LOCK_FILE)) < 20
@@ -593,6 +622,10 @@ def get_rates(config):
     cache = read_cache()
     if cache and (time.time() - cache.get("fetched_at", 0)) < config.expire:
         return cache["rates"], cache.get("source", "?"), cache["fetched_at"], None
+    if cache and (time.time() - cache.get("failed_at", 0)) < FAIL_RETRY:
+        # acaba de fallar: mostrar lo viejo al toque en vez de reintentar
+        return cache["rates"], cache.get("source", "?"), \
+            cache.get("fetched_at", 0), cache.get("last_error") or t("offline")
     if lock_is_fresh():
         if cache:
             return cache["rates"], cache.get("source", "?"), \
@@ -604,12 +637,9 @@ def get_rates(config):
         fresh, source = fetch_rates()
         if fresh:
             payload = {"fetched_at": time.time(), "source": source, "rates": fresh}
-            try:
-                with open(CACHE_FILE, "w", encoding="utf-8") as handle:
-                    json.dump(payload, handle)
-            except OSError:
-                pass
+            write_cache(payload)
             return fresh, source, payload["fetched_at"], None
+        note_failure(cache, source)
         if cache:
             return cache["rates"], cache.get("source", "?"), \
                 cache.get("fetched_at", 0), source
@@ -690,6 +720,24 @@ def error_item(title, subtitle, icon=ICON_ERROR):
     return [item(title=title, subtitle=subtitle, icon={"path": icon}, valid=False)]
 
 
+def refresh_item(title, subtitle, icon, query):
+    """Fila clicable: ↩ vuelve a bajar las tasas y reabre Alfred.
+
+    El arg es el centinela que entiende el script de acción; la consulta viaja
+    en las variables del ítem para poder reabrir exactamente la misma búsqueda.
+    """
+    icon = icon if isinstance(icon, dict) else {"path": icon}
+    return item(
+        title=title,
+        subtitle=f"{subtitle}   ·   {t('rates_refresh')}",
+        icon=icon,
+        valid=True,
+        arg=REFRESH_SENTINEL,
+        variables={"sc_refresh": "1", "sc_query": query or "",
+                   "sc_keyword": KEYWORD},
+    )
+
+
 def flag_icon(code):
     path = os.path.join(HERE, "flags", f"{code}.png")
     return {"path": path if os.path.exists(path)
@@ -748,19 +796,19 @@ def picker_items(hits, amount=None, config=None):
     return items
 
 
-def info_rows(rates, source, fetched_at, stale_error, expire):
+def info_rows(rates, source, fetched_at, stale_error, expire, query=""):
     age = human_age(time.time() - fetched_at) if fetched_at else "—"
     if stale_error:
-        return [item(
-            title=t("rates_stale_title", age=age),
-            subtitle=t("rates_stale_sub", error=stale_error),
-            icon={"path": ICON_ERROR}, valid=False,
+        return [refresh_item(
+            t("rates_stale_title", age=age),
+            t("rates_stale_sub", error=stale_error),
+            ICON_ERROR, query,
         )]
     minutes = max(1, int(expire) // 60)
-    return [item(
-        title=t("rates_title", age=age, count=len(rates)),
-        subtitle=t("rates_sub", source=source, minutes=minutes),
-        icon={"path": ICON_INFO}, valid=False,
+    return [refresh_item(
+        t("rates_title", age=age, count=len(rates)),
+        t("rates_sub", source=source, minutes=minutes),
+        ICON_INFO, query,
     )]
 
 
@@ -849,6 +897,10 @@ def parse_query(raw, config):
         if first and second and first_exact and second_exact and first != second:
             result["codes"] = [first, second]
             return result
+        if first and second and first == second and (first_exact or second_exact):
+            # «usd usd» no es un par: es una sola moneda repetida
+            result.update(codes=[first], swap=swap)
+            return result
         if second and second_exact and not (first and first_exact):
             result.update(codes=[second], swap=True)
             return result
@@ -859,6 +911,10 @@ def parse_query(raw, config):
     text = " ".join(part for part in (left, right) if part)
     if not text:
         return result
+    # «usd usd»: la misma moneda repetida no es un par
+    words = text.split()
+    if len(words) > 1 and len(set(words)) == 1:
+        text = words[0]
 
     code, exact, hits = choose(text, config)
     if code and exact:
@@ -892,6 +948,38 @@ def parse_query(raw, config):
 # --------------------------------------------------------------------------
 # render
 # --------------------------------------------------------------------------
+def favorite_pairs(value, config):
+    """Una fila por favorita, sin repetir la misma moneda por rellenar.
+
+    DEFAULT/FROM_FAV: favorita → base.  TO_FAV: base → favorita.
+    BOTH: las dos (el comportamiento viejo de DEFAULT, ahora opt-in).
+    """
+    base = config.base
+    both = config.orientation == "BOTH"
+    to_base = config.orientation in ("DEFAULT", "FROM_FAV") or both
+    from_base = config.orientation == "TO_FAV" or both
+    pairs = []
+    for code in config.favorites:
+        if code == base:
+            continue
+        if to_base:
+            pairs.append((value, code, base))
+        if from_base:
+            pairs.append((value, base, code))
+    return pairs
+
+
+def dedupe_pairs(pairs):
+    """Quita pares repetidos y auto-conversiones, conservando el orden."""
+    seen, out = set(), []
+    for value, origin, target in pairs:
+        if origin == target or (origin, target) in seen:
+            continue
+        seen.add((origin, target))
+        out.append((value, origin, target))
+    return out
+
+
 def build_pairs(parsed, config):
     """Lista de (monto, origen, destino) siguiendo los patrones de Coinc (MIT)."""
     value = parsed["amount"] if parsed["amount"] is not None else Decimal(1)
@@ -899,38 +987,29 @@ def build_pairs(parsed, config):
     base = config.base
     pairs = []
 
-    if not codes:
-        for code in config.favorites:
-            if config.orientation in ("DEFAULT", "FROM_FAV"):
-                pairs.append((value, code, base))
-            if config.orientation in ("DEFAULT", "TO_FAV"):
-                pairs.append((value, base, code))
-        return pairs
+    if not codes or codes == [base]:
+        return dedupe_pairs(favorite_pairs(value, config))
 
     if len(codes) == 1:
         code = codes[0]
-        if code == base:
-            for other in config.favorites:
-                pairs.append((value, base, other))
-                pairs.append((value, other, base))
-            return pairs
         origin = base if parsed["swap"] else code
         first = (value, origin, code if parsed["swap"] else base)
         pairs.append(first)
-        if config.compare_favorites:
+        if config.compare_favorites and not parsed["swap"]:
             # la moneda ingresada, vista en todas las favoritas
             for other in config.favorites:
                 if other not in (origin, first[2]):
                     pairs.append((value, origin, other))
-        if not parsed["binding"]:
+        elif not parsed["binding"]:
+            # sin favoritas no hay más filas: se ofrece también la vuelta
             pairs.append((value, first[2], first[1]))
-        return pairs
+        return dedupe_pairs(pairs)
 
     first_code, second_code = codes[0], codes[1]
     pairs.append((value, first_code, second_code))
     if not parsed["binding"]:
         pairs.append((value, second_code, first_code))
-    return pairs
+    return dedupe_pairs(pairs)
 
 
 def render_favorites(query, config, mode):
@@ -997,6 +1076,10 @@ def main():
     if len(args) > 1 and args[0] == "--mode":
         mode = args[1]
         query = " ".join(args[2:]).strip()
+    elif args and args[0] == "--refresh":
+        # la fila de tasas: baja tasas nuevas y no imprime JSON
+        force_refresh()
+        return
     elif args and args[0] in ("--toggle", "--remove"):
         code = (args[1] if len(args) > 1 else "").strip().upper()
         if code not in CURRENCIES:
@@ -1019,8 +1102,9 @@ def main():
 
     rates, source, fetched_at, stale_error = get_rates(config)
     if not rates:
-        emit(error_item(t("no_rates_title"),
-                        t("no_rates_sub", error=stale_error or "—")))
+        emit([refresh_item(t("no_rates_title"),
+                           t("no_rates_sub", error=stale_error or "—"),
+                           ICON_ERROR, query)])
         return
 
     if config.base not in rates:
@@ -1036,7 +1120,8 @@ def main():
             parsed.update(mode="convert", codes=[next(iter(hits))])
         else:
             emit(picker_items(hits, parsed["amount"], config)
-                 + info_rows(rates, source, fetched_at, stale_error, config.expire))
+                 + info_rows(rates, source, fetched_at, stale_error,
+                             config.expire, query))
             return
 
     if parsed["mode"] == "none":
@@ -1053,30 +1138,20 @@ def main():
             items = error_item(t("unknown_title", query=parsed["free"]),
                                t("unknown_hint"))
         emit(items + info_rows(rates, source, fetched_at, stale_error,
-                               config.expire))
+                               config.expire, query))
         return
 
     items = [conversion_item(value, origin, target, rates)
              for value, origin, target in build_pairs(parsed, config)
              if origin in rates and target in rates]
 
-    if not parsed["codes"] and parsed["amount"] is None:
-        if not config.favorites:
-            items.insert(0, item(
-                title=t("fav_empty_title"),
-                subtitle=t("fav_empty_sub"),
-                icon={"path": ICON_GEAR}, valid=False,
-            ))
-        else:
-            shown = ", ".join(config.favorites[:6])
-            if len(config.favorites) > 6:
-                shown += "…"
-            items.append(item(
-                title=t("fav_manage_title"),
-                subtitle=t("fav_manage_sub", count=len(config.favorites),
-                           names=shown),
-                icon={"path": ICON_GEAR}, valid=False,
-            ))
+    # cur-add / cur-rm ya gestionan las favoritas: aquí no se repite la fila
+    if not parsed["codes"] and parsed["amount"] is None and not config.favorites:
+        items.insert(0, item(
+            title=t("fav_empty_title"),
+            subtitle=t("fav_empty_sub"),
+            icon={"path": ICON_GEAR}, valid=False,
+        ))
 
     if not items:
         if not config.favorites:
@@ -1085,7 +1160,7 @@ def main():
             emit(error_item(t("no_pair_title"), t("no_pair_sub")))
         return
     emit(items + info_rows(rates, source, fetched_at, stale_error,
-                           config.expire))
+                           config.expire, query))
 
 
 if __name__ == "__main__":

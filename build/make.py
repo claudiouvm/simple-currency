@@ -214,9 +214,18 @@ def uid(name):
     return str(uuid.uuid5(uuid.NAMESPACE_DNS, f"simple-currency.{name}")).upper()
 
 
-def script_body(mode=None):
+def script_body(mode=None, keyword=None):
     """Busca un Python 3 real sin disparar el diálogo de Command Line Tools."""
     prefix = f"--mode {mode} " if mode else ""
+    env = f'SC_KEYWORD="{keyword}" ' if keyword else ""
+    return (
+        python_detect()
+        + f'{env}"$PY" ./simplecurrency.py {prefix}"$1"\n'
+    )
+
+
+def python_detect():
+    """Bloque sh que deja el intérprete elegido en $PY (o avisa y corta)."""
     return (
         'PY=""\n'
         'if [ -n "$(/usr/bin/xcode-select -p 2>/dev/null)" ] '
@@ -233,8 +242,43 @@ def script_body(mode=None):
         '"valid":false,"icon":{"path":"hints/error.png"}}]}\'\n'
         '    exit\n'
         "fi\n"
-        f'"$PY" ./simplecurrency.py {prefix}"$1"\n'
     )
+
+
+def action_script(name, script):
+    return {
+        "config": {"concurrently": False, "escaping": 0, "script": script,
+                   "scriptargtype": 1, "scriptfile": "", "type": 0},
+        "type": "alfred.workflow.action.script",
+        "uid": uid(name),
+        "version": 2,
+    }
+
+
+def dispatch_script():
+    """Copia el resultado al portapapeles, o refresca las tasas y reabre Alfred.
+
+    La fila de tasas manda el centinela en el arg y la consulta en variables;
+    todo lo demás sigue siendo «copiar lo seleccionado».
+    """
+    detect = "\n".join("    " + line
+                       for line in python_detect().rstrip("\n").split("\n"))
+    return f"""ARG="$1"
+MARK="__simple_currency_refresh__"
+if [ "$ARG" = "$MARK" ] || [ "${{sc_refresh:-}}" = "1" ]; then
+{detect}
+    "$PY" ./simplecurrency.py --refresh >/dev/null 2>&1
+    QUERY="${{sc_keyword:-cur}}"
+    if [ -n "${{sc_query:-}}" ]; then
+        QUERY="$QUERY ${{sc_query}}"
+    fi
+    /usr/bin/osascript -e 'on run argv' \\
+        -e 'tell application id "com.runningwithcrayons.Alfred" to search (item 1 of argv)' \\
+        -e 'end run' "$QUERY" >/dev/null 2>&1
+    exit 0
+fi
+printf '%s' "$ARG" | /usr/bin/pbcopy
+"""
 
 
 def script_filter(name, keyword, title, subtext, script):
@@ -296,33 +340,22 @@ def build_info_plist():
     objects = [
         script_filter("cur", "cur", "Convert currency",
                       "100 yuan · 5 pesos chilenos · 1.000.000 clp a dolares",
-                      script_body()),
+                      script_body(keyword="cur")),
         script_filter("cambio", "cambio", "Convert currency",
                       "100 yuan · 5 pesos chilenos · 1.000.000 clp a dolares",
-                      script_body()),
+                      script_body(keyword="cambio")),
         script_filter("help", "cur-help", "Simple Currency help",
-                      "Examples and shortcuts", script_body()),
+                      "Examples and shortcuts", script_body(keyword="cur")),
         script_filter("add", "cur-add", "Add favourites",
                       "Currencies you compare against by default",
                       script_body("add")),
         script_filter("rm", "cur-rm", "Remove favourites",
                       "Stop comparing against them", script_body("rm")),
-        {
-            "config": {"concurrently": False, "escaping": 0,
-                       "script": '/usr/bin/python3 ./simplecurrency.py --toggle "$1"',
-                       "scriptargtype": 1, "scriptfile": "", "type": 0},
-            "type": "alfred.workflow.action.script",
-            "uid": uid("toggle"),
-            "version": 2,
-        },
-        {
-            "config": {"concurrently": False, "escaping": 0,
-                       "script": '/usr/bin/python3 ./simplecurrency.py --remove "$1"',
-                       "scriptargtype": 1, "scriptfile": "", "type": 0},
-            "type": "alfred.workflow.action.script",
-            "uid": uid("untoggle"),
-            "version": 2,
-        },
+        action_script("dispatch", dispatch_script()),
+        action_script("toggle", python_detect()
+                      + '"$PY" ./simplecurrency.py --toggle "$1"\n'),
+        action_script("untoggle", python_detect()
+                      + '"$PY" ./simplecurrency.py --remove "$1"\n'),
         {
             "config": {"lastpathcomponent": False,
                        "onlyshowifquerypopulated": True,
@@ -347,12 +380,18 @@ def build_info_plist():
     ]
 
     connections = {}
-    for source in (main_uid, alt_uid, help_uid):
+    # cur y cambio pasan por el despachador: copia, o refresca tasas y reabre
+    for source in (main_uid, alt_uid):
         connections[source] = [
-            {"destinationuid": clipboard_uid, "modifiers": modifiers,
+            {"destinationuid": uid("dispatch"), "modifiers": modifiers,
              "modifiersubtext": "", "vitoclose": False}
             for modifiers in (0, 524288, 1048576)
         ]
+    connections[help_uid] = [
+        {"destinationuid": clipboard_uid, "modifiers": modifiers,
+         "modifiersubtext": "", "vitoclose": False}
+        for modifiers in (0, 524288, 1048576)
+    ]
     connections[uid("add")] = [{"destinationuid": uid("toggle"),
                                 "modifiers": 0, "modifiersubtext": "",
                                 "vitoclose": False}]
@@ -368,7 +407,8 @@ def build_info_plist():
         main_uid: {"xpos": 0, "ypos": 0},
         alt_uid: {"xpos": 0, "ypos": 180},
         help_uid: {"xpos": 0, "ypos": 360},
-        clipboard_uid: {"xpos": 330, "ypos": 0},
+        clipboard_uid: {"xpos": 660, "ypos": 0},
+        uid("dispatch"): {"xpos": 330, "ypos": 90},
         uid("add"): {"xpos": 0, "ypos": 540},
         uid("rm"): {"xpos": 0, "ypos": 720},
         uid("toggle"): {"xpos": 330, "ypos": 540},
@@ -395,9 +435,10 @@ def build_info_plist():
         popup("ORIENTATION", "Default list direction",
               "Which way round to show the favourites list.",
               SETTINGS["ORIENTATION"],
-              [["Both ways", "DEFAULT"],
+              [["Favourites → base (one row each)", "DEFAULT"],
                ["Base → favourites", "TO_FAV"],
-               ["Favourites → base", "FROM_FAV"]]),
+               ["Favourites → base", "FROM_FAV"],
+               ["Both ways", "BOTH"]]),
         popup("PRECISION", "Decimals",
               "\u201cAutomatic\u201d uses each currency's own precision (CLP 0, USD 2).",
               SETTINGS["PRECISION"],
@@ -431,7 +472,9 @@ def build_info_plist():
         "against\n"
         "cur-help                       every example\n\n"
         "\u21a9 copies the result \u00b7 \u2325 the full expression \u00b7 "
-        "\u2318 the number only.\n\n"
+        "\u2318 the number only.\n"
+        "The rates row at the bottom is clickable: \u21a9 on it downloads "
+        "fresh rates and reopens Alfred with the same query.\n\n"
         "LANGUAGES\n"
         "The interface follows the macOS language (English or Spanish); "
         "override it in Configure \u2192 Interface language. Currency names are "
@@ -469,7 +512,7 @@ def build_info_plist():
         "uidata": uidata,
         "userconfigurationconfig": userconfig,
         "variablesdontexport": [],
-        "version": "1.1.0",
+        "version": "1.1.1",
         "webaddress": "https://github.com/claudiouvm/simple-currency",
     }
 

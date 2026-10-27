@@ -94,7 +94,7 @@ always searchable in both languages, regardless of the interface language.
 
 ## Install
 
-Download `SimpleCurrency.alfredworkflow` from the [latest release](../../releases/latest)
+Download `SimpleCurrency.alfredworkflow` from the [latest release](https://github.com/claudiouvm/simple-currency/releases/latest)
 and double-click it.
 
 Or build from source:

@@ -1,0 +1,4 @@
+.DS_Store
+*.alfredworkflow
+__pycache__/
+*.pyc

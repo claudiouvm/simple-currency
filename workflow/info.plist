@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.github.claudiouvm.simplecurrency</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>0739944A-810F-503D-B100-CAD7B7BC275D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>4547E859-D02E-58B9-830D-1F140E1971B0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>44A648BE-0CD0-5A83-927E-2C83EC8A8580</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>535CF3A3-F35B-5AF2-ABA1-52D6327D793C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4547E859-D02E-58B9-830D-1F140E1971B0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5552F557-683C-5965-B313-8DF5F82C1F63</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A99E7C5A-A5C6-5F52-A11D-E3B78F0744B6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E59AC614-3037-5E2A-87A5-99D1130F3268</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E59AC614-3037-5E2A-87A5-99D1130F3268</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>44A648BE-0CD0-5A83-927E-2C83EC8A8580</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F10A0865-1BB0-5513-824E-82406A26C9F0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Claudio</string>
+	<key>description</key>
+	<string>Convert currencies by ISO code or by name (dollar, Chilean peso, yuan) — English and Spanish.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Simple Currency</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>cur</string>
+				<key>queuedelaycustom</key>
+				<integer>2</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Converting…</string>
+				<key>script</key>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py "$1"
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>100 yuan · 5 pesos chilenos · 1.000.000 clp a dolares</string>
+				<key>title</key>
+				<string>Convert currency</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>0739944A-810F-503D-B100-CAD7B7BC275D</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>cambio</string>
+				<key>queuedelaycustom</key>
+				<integer>2</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Converting…</string>
+				<key>script</key>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py "$1"
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>100 yuan · 5 pesos chilenos · 1.000.000 clp a dolares</string>
+				<key>title</key>
+				<string>Convert currency</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>F10A0865-1BB0-5513-824E-82406A26C9F0</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>cur-help</string>
+				<key>queuedelaycustom</key>
+				<integer>2</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Converting…</string>
+				<key>script</key>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py "$1"
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Examples and shortcuts</string>
+				<key>title</key>
+				<string>Simple Currency help</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>5552F557-683C-5965-B313-8DF5F82C1F63</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>cur-add</string>
+				<key>queuedelaycustom</key>
+				<integer>2</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Converting…</string>
+				<key>script</key>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py --mode add "$1"
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Currencies you compare against by default</string>
+				<key>title</key>
+				<string>Add favourites</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>535CF3A3-F35B-5AF2-ABA1-52D6327D793C</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>cur-rm</string>
+				<key>queuedelaycustom</key>
+				<integer>2</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Converting…</string>
+				<key>script</key>
+				<string>PY=""
+if [ -n "$(/usr/bin/xcode-select -p 2&gt;/dev/null)" ] &amp;&amp; [ -x /usr/bin/python3 ]; then
+    PY=/usr/bin/python3
+elif [ -x /opt/homebrew/bin/python3 ]; then
+    PY=/opt/homebrew/bin/python3
+elif [ -x /usr/local/bin/python3 ]; then
+    PY=/usr/local/bin/python3
+fi
+if [ -z "$PY" ]; then
+    printf '{"items":[{"title":"Python 3 is required","subtitle":"Install the Command Line Tools: xcode-select --install","valid":false,"icon":{"path":"hints/error.png"}}]}'
+    exit
+fi
+"$PY" ./simplecurrency.py --mode rm "$1"
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Stop comparing against them</string>
+				<key>title</key>
+				<string>Remove favourites</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A99E7C5A-A5C6-5F52-A11D-E3B78F0744B6</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>/usr/bin/python3 ./simplecurrency.py --toggle "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>4547E859-D02E-58B9-830D-1F140E1971B0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>/usr/bin/python3 ./simplecurrency.py --remove "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E59AC614-3037-5E2A-87A5-99D1130F3268</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Simple Currency</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>44A648BE-0CD0-5A83-927E-2C83EC8A8580</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Simple Currency — currency conversion by code or by name, in English and Spanish.
+
+USAGE
+cur                            your favourites against the base currency
+cur 100 usd                    100 US dollars to the base currency
+cur 100 yuan                   by name — codes are optional
+cur 1,000,000 clp a dolares    «a», «en» or «to» set the direction
+cur usd yuan                   between two currencies, both ways
+cur peso                       ambiguous names show a picker (⇥ completes)
+cur-add / cur-rm               choose the favourites you compare against
+cur-help                       every example
+
+↩ copies the result · ⌥ the full expression · ⌘ the number only.
+
+LANGUAGES
+The interface follows the macOS language (English or Spanish); override it in Configure → Interface language. Currency names are searchable in both languages, with or without accents, singular or plural: dollar, dólares, chilean peso, peso chileno, yuan, corona sueca, swiss franc.
+
+ESPAÑOL
+cur                            tus favoritas contra la moneda principal
+cur 100 usd                    100 dólares a la moneda principal
+cur 100 yuan                   por nombre, sin códigos
+cur 1.000.000 clp a dolares    con «a» o «en» fijas la dirección
+cur-add / cur-rm               elegir las favoritas contra las que se compara
+
+DATA &amp; PRIVACY
+Rates from open.er-api.com (no API key), cached on disk for an hour, with currency-api as a fallback. Nothing else leaves your Mac. Requires Python 3 (/usr/bin/python3, included with the Command Line Tools). Based on Coinc by Tomy Hsieh (MIT); the flag icons come from the same project.
+</string>
+	<key>uidata</key>
+	<dict>
+		<key>0739944A-810F-503D-B100-CAD7B7BC275D</key>
+		<dict>
+			<key>xpos</key>
+			<integer>0</integer>
+			<key>ypos</key>
+			<integer>0</integer>
+		</dict>
+		<key>44A648BE-0CD0-5A83-927E-2C83EC8A8580</key>
+		<dict>
+			<key>xpos</key>
+			<integer>660</integer>
+			<key>ypos</key>
+			<integer>630</integer>
+		</dict>
+		<key>4547E859-D02E-58B9-830D-1F140E1971B0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>330</integer>
+			<key>ypos</key>
+			<integer>540</integer>
+		</dict>
+		<key>535CF3A3-F35B-5AF2-ABA1-52D6327D793C</key>
+		<dict>
+			<key>xpos</key>
+			<integer>0</integer>
+			<key>ypos</key>
+			<integer>540</integer>
+		</dict>
+		<key>5552F557-683C-5965-B313-8DF5F82C1F63</key>
+		<dict>
+			<key>xpos</key>
+			<integer>0</integer>
+			<key>ypos</key>
+			<integer>360</integer>
+		</dict>
+		<key>A895EBA0-DB69-5305-AB05-9F4DEB196BB7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>330</integer>
+			<key>ypos</key>
+			<integer>0</integer>
+		</dict>
+		<key>A99E7C5A-A5C6-5F52-A11D-E3B78F0744B6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>0</integer>
+			<key>ypos</key>
+			<integer>720</integer>
+		</dict>
+		<key>E59AC614-3037-5E2A-87A5-99D1130F3268</key>
+		<dict>
+			<key>xpos</key>
+			<integer>330</integer>
+			<key>ypos</key>
+			<integer>720</integer>
+		</dict>
+		<key>F10A0865-1BB0-5513-824E-82406A26C9F0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>0</integer>
+			<key>ypos</key>
+			<integer>180</integer>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>auto</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Automatic</string>
+						<string>auto</string>
+					</array>
+					<array>
+						<string>English</string>
+						<string>en</string>
+					</array>
+					<array>
+						<string>Español</string>
+						<string>es</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>Follows the macOS language by default.</string>
+			<key>label</key>
+			<string>Interface language</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>LANGUAGE_UI</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>CLP</string>
+				<key>placeholder</key>
+				<string>CLP</string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Everything is converted against this currency (ISO code).</string>
+			<key>label</key>
+			<string>Base currency</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>BASE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>USD,EUR,ARS,BRL,GBP,CNY,MXN,PEN,UYU,BOB</string>
+				<key>placeholder</key>
+				<string>USD,EUR,ARS</string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Compared by default, comma separated; manage them with cur-add.</string>
+			<key>label</key>
+			<string>Favourites</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>FAVORITES</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>FAVORITES</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Against my favourites</string>
+						<string>FAVORITES</string>
+					</array>
+					<array>
+						<string>Against the base currency only</string>
+						<string>BASE</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>Show it against the base currency and all your favourites.</string>
+			<key>label</key>
+			<string>When you type a currency</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>COMPARE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>DEFAULT</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Both ways</string>
+						<string>DEFAULT</string>
+					</array>
+					<array>
+						<string>Base → favourites</string>
+						<string>TO_FAV</string>
+					</array>
+					<array>
+						<string>Favourites → base</string>
+						<string>FROM_FAV</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>Which way round to show the favourites list.</string>
+			<key>label</key>
+			<string>Default list direction</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>ORIENTATION</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>auto</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Automatic</string>
+						<string>auto</string>
+					</array>
+					<array>
+						<string>0</string>
+						<string>0</string>
+					</array>
+					<array>
+						<string>2</string>
+						<string>2</string>
+					</array>
+					<array>
+						<string>4</string>
+						<string>4</string>
+					</array>
+					<array>
+						<string>6</string>
+						<string>6</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>“Automatic” uses each currency's own precision (CLP 0, USD 2).</string>
+			<key>label</key>
+			<string>Decimals</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>PRECISION</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>3600</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>5 minutes</string>
+						<string>300</string>
+					</array>
+					<array>
+						<string>15 minutes</string>
+						<string>900</string>
+					</array>
+					<array>
+						<string>1 hour</string>
+						<string>3600</string>
+					</array>
+					<array>
+						<string>6 hours</string>
+						<string>21600</string>
+					</array>
+					<array>
+						<string>24 hours</string>
+						<string>86400</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>How often exchange rates are downloaded again.</string>
+			<key>label</key>
+			<string>Refresh rates</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>EXPIRE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string>lucas=CLP, verde=USD</string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>alias=CODE pairs, comma separated. e.g. lucas=CLP, verde=USD</string>
+			<key>label</key>
+			<string>Custom aliases</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>ALIASES</string>
+		</dict>
+	</array>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.1.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/claudiouvm/simple-currency</string>
+</dict>
+</plist>

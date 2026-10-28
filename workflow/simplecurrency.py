@@ -744,7 +744,7 @@ def flag_icon(code):
             else os.path.join(HERE, "icon.png")}
 
 
-def conversion_item(value, source_code, target_code, rates):
+def conversion_item(value, source_code, target_code, rates, base=None):
     with localcontext() as ctx:
         ctx.prec = 60
         result = value * Decimal(str(rates[target_code])) / Decimal(
@@ -760,7 +760,10 @@ def conversion_item(value, source_code, target_code, rates):
         subtitle=t("item_subtitle", value=copy_value),
         arg=copy_value,
         text={"copy": copy_value, "largetype": expression},
-        icon=flag_icon(target_code),
+        # La bandera es la de la moneda que se está mirando: la destino, salvo
+        # cuando ésa es la base (lista de favoritas), donde lo informativo es
+        # el origen.
+        icon=flag_icon(source_code if target_code == base else target_code),
         mods={
             "alt": {"arg": expression,
                     "subtitle": t("copy_expression", expr=expression)},
@@ -1141,7 +1144,7 @@ def main():
                                config.expire, query))
         return
 
-    items = [conversion_item(value, origin, target, rates)
+    items = [conversion_item(value, origin, target, rates, config.base)
              for value, origin, target in build_pairs(parsed, config)
              if origin in rates and target in rates]
 
